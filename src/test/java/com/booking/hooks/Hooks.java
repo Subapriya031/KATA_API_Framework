@@ -10,14 +10,17 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import com.booking.utils.TokenManager;
 
 public class Hooks {
-    private static PrintStream ps;
-    private static final String CONFIG_PATH = "src/test/resources/Config.properties";
-    private static boolean isInitialized = false;
-    private static Properties config;
-    private static final File LOG_DIR = new File("target/logs");
 
+    private static PrintStream ps;
+    private static Properties config;
+    private static final String CONFIG_PATH = "src/test/resources/Config.properties";
+    private static final File LOG_DIR = new File("target/logs");
+    private static boolean isInitialized = false;
+
+    // One-time setup using static block
     static {
         if (!isInitialized) {
             loadProperties();
@@ -28,6 +31,7 @@ public class Hooks {
 
     @Before
     public void setupRequest(Scenario scenario) throws InterruptedException {
+        TokenManager.expireToken(); // Optional
         Thread.sleep(2000); // If you need to delay between requests
 
         RequestSpecBuilder builder = new RequestSpecBuilder()
@@ -35,15 +39,22 @@ public class Hooks {
                 .setContentType("application/json")
                 .addFilter(RequestLoggingFilter.logRequestTo(ps))
                 .addFilter(ResponseLoggingFilter.logResponseTo(ps));
+
+        if (!scenario.getSourceTagNames().contains("@skipToken")) {
+            builder.addHeader("Authorization", "Bearer " + TokenManager.getAuthToken());
+            System.out.println("Token: " + TokenManager.getAuthToken());
+        }
+
         RestAssured.requestSpecification = builder.build();
     }
 
     @After
     public void teardownRequest() {
+        TokenManager.expireToken();
         RestAssured.reset();
     }
 
-// ---------------- Utility Methods ----------------
+    // ---------------- Utility Methods ----------------
 
     private static void loadProperties() {
         config = new Properties();

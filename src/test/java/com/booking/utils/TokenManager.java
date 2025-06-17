@@ -53,4 +53,7 @@ public class TokenManager {
     private static String extractToken(Response response) {
         return response.jsonPath().getString("token");
     }
+    public static void expireToken() {
+        cachedToken = null;
+    }
 }
