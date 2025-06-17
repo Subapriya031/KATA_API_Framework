@@ -24,3 +24,15 @@ Feature: Retrieve Booking Details
       | 000           |200       |
       | 999           |200       |
       | -1            |200       |
+
+  @retrieveBookingWithInvalidBookingId @errorValidation
+  Scenario Outline: Fetch booking summary with invalid booking id input
+    Given the user fetches booking summary with invalid booking id "<invalidBookingId>"
+    Then the response status code should be <statusCode>
+
+    Examples:
+      | invalidBookingId | statusCode |
+      | 000              | 404        |
+      | -1               | 400        |
+      | abc123           | 400        |
+

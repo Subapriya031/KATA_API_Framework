@@ -17,6 +17,9 @@ public class APIUtils {
                 .queryParams(queryParams)
                 .get(endpoint);
     }
+    public static Response get(String endpoint) {
+        return RestAssured.given().get(endpoint);
+    }
 
     public static Response put(String endpoint, Object body) {
         return RestAssured.given()

@@ -87,6 +87,13 @@ public class CreateBooking {
         response = APIUtils.get(endpoint, queryParams);
 
     }
+    @Given("the user fetches booking summary with invalid booking id {string}")
+    public void theUserFetchesBookingSummaryWithInvalidBookingId(String invalidBookingId) {
+        String endpoint = ConfigManager.getProperty("endpoint.getBookingById") + "/" + invalidBookingId;
+        response = APIUtils.get(endpoint);
+        System.out.println("Response for invalid booking ID (" + invalidBookingId + "): " + response.asString());
+    }
+
     @Then("the response status code should be {int}")
     public void the_response_status_code_should_be(Integer expectedStatus) {
         response.then().assertThat().statusCode(expectedStatus);
