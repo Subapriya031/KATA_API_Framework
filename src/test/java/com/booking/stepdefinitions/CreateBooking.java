@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -25,7 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class CreateBooking {
     public Response response;
     public CreateBookingRequest createBookingRequest;
-    public int roomid;
+    Map<String, String> queryParams;
+    String endpoint;
 
     @Given("I have booking details {string}, {string}, {string}, {string},{string},{string}, {string}")
     public void iHaveBookingDetails(String firstname, String lastname, String depositpaid, String email, String phone, String checkin, String checkout) {
@@ -79,6 +77,14 @@ public class CreateBooking {
         List<String> errors = response.jsonPath().getList("errors");
         assertThat("Expected error message not found in errors array",
                 errors, hasItem(expectedMessage));
+
+    }
+    @When("the user fetches booking summary with invalid room id {string}")
+    public void theUserFetchesBookingSummaryWithInvalidRoomId(String InvalidRoomId) {
+        endpoint = ConfigManager.getProperty("endpoint.getBooking");
+        queryParams = new HashMap<>();
+        queryParams.put("roomId", InvalidRoomId);
+        response = APIUtils.get(endpoint, queryParams);
 
     }
     @Then("the response status code should be {int}")

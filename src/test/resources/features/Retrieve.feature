@@ -12,3 +12,15 @@ Feature: Retrieve Booking Details
       | firstname | lastname | depositpaid | email                | phone       | checkin    | checkout   | statuscode |
       | Shaks     | victor   | true        | shak_vicky@gmail.com | 90897967564 | 2025-06-20 | 2025-06-21 | 200        |
 
+
+  @retrieveBookingWithInvalidRoomId @happyPath
+  Scenario Outline: Fetch booking summary with invalid room id input
+    Given the user fetches booking summary with invalid room id "<invalidRoomId>"
+    Then I receive status code "<statuscode>"
+    And the response should contain empty booking summary
+
+    Examples:
+      | invalidRoomId |statuscode|
+      | 000           |200       |
+      | 999           |200       |
+      | -1            |200       |

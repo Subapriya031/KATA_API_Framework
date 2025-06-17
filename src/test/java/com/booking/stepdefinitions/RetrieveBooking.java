@@ -3,16 +3,15 @@ package com.booking.stepdefinitions;
 import com.booking.utils.APIUtils;
 import com.booking.utils.BookingContext;
 import com.booking.utils.ConfigManager;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 public class RetrieveBooking {
@@ -59,5 +58,24 @@ public class RetrieveBooking {
         response = APIUtils.get(ConfigManager.getProperty("endpoint.getBooking"), queryParams);
         System.out.println(response);
 
+    }
+
+    @Given("the user is able to access {string}")
+    public void theUserIsAbleToAccess(String arg0) {
+        
+        
+    }
+
+
+    @And("the response should contain empty booking summary")
+    public void theResponseShouldContainEmptyBookingSummary() {
+        String responseBody = response.getBody().asString().trim();
+        // Validate response is an empty array or object
+        assertTrue("Expected empty booking summary, but got: " + responseBody,
+                responseBody.equals("[]") || responseBody.equals("{}"));
+    }
+
+    @Given("I have the {string}")
+    public void iHaveThe(String arg0) {
     }
 }
