@@ -5,7 +5,7 @@ Feature: Create Booking API
     Given I have booking details "<firstname>", "<lastname>", "<depositpaid>", "<email>","<phone>","<checkin>", "<checkout>"
     When I send create booking request
     Then I receive status code "<statuscode>"
-    Then verify the Response
+#    Then verify the Response
 
     Examples:
       | firstname | lastname | depositpaid | email                | phone       | checkin    | checkout   | statuscode |

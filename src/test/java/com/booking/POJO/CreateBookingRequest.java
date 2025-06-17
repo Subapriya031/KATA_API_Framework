@@ -1,18 +1,14 @@
 package com.booking.POJO;
 
 public class CreateBookingRequest {
-
     private int roomid;
     private boolean depositpaid;
     private String firstname, lastname, email, phone;
     private BookingDates bookingdates;
-
-    public CreateBookingRequest() {
-    }
-
+    public CreateBookingRequest() {}
 
     public CreateBookingRequest(String firstname, String lastname, boolean depositpaid,
-                                BookingDates bookingdates, String email, String phone, int roomid) {
+                                BookingDates bookingdates,String email,String phone,int roomid) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -22,6 +18,16 @@ public class CreateBookingRequest {
         this.roomid = roomid;
 
     }
+
+
+    public int getRoomid() {
+        return roomid;
+    }
+
+    public void setRoomid(int roomid) {
+        this.roomid = roomid;
+    }
+
 
 
     public boolean isDepositpaid() {
@@ -64,20 +70,15 @@ public class CreateBookingRequest {
         this.phone = phone;
     }
 
-
-    public int getRoomid() {return roomid;}
-
-    public void setRoomid(int roomid) {this.roomid = roomid;}
-
-
     public BookingDates getBookingdates() {
         return bookingdates;
     }
-
 
     public void setBookingdates(BookingDates bookingdates) {
         this.bookingdates = bookingdates;
     }
 
-
+    public void setRoomId(int randomId) {
+        this.roomid = randomId;
+    }
 }
